@@ -41,8 +41,6 @@ var product18 = new Product("water-can", "../img/water-can.jpg");
 
 // Function Calls
 
-checkRepated();
-
 // Functions
 
 function generateRandomNumber() {
@@ -97,6 +95,10 @@ function generateRAndomImage() {
 function generateImages() {
   for (var i = 0; i < selectedIndex.length; i++) {
     var imgTag = document.createElement("img");
+    imgTag.setAttribute("src", allProducts[selectedIndex[i]].path);
+    imgTag.setAttribute("name", allProducts[selectedIndex[i]].name);
+    allProducts[selectedIndex[i]].numberOfViews++;
+    imageContainer.appendChild(imgTag);
   }
 }
 
@@ -112,7 +114,14 @@ imageContainer.addEventListener("click", function clickgenerator() {
           break;
         }
       }
-      generateRAndomImage();
+      while (imageContainer.hasChildNodes()) {
+        imageContainer.removeChild(imageContainer.firstChild);
+        console.log(imageContainer.firstChild);
+      }
+      selectedIndex = [];
+      checkRepated();
+      console.log(selectedIndex);
+      generateImages();
       totalClicks--;
     } else {
       generateMessage();
@@ -138,9 +147,7 @@ function checkRepated() {
     var randomNumber = generateRandomNumber();
     selectedIndex.push(randomNumber);
   }
-  for (var i = 0; i < selectedIndex.length - 1; i++) {
-    while (selectedIndex[i] == selectedIndex[i + 1]) {
-      selectedIndex[i + 1] = generateRandomNumber();
-    }
-  }
 }
+
+checkRepated();
+generateImages();
