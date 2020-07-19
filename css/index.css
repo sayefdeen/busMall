@@ -83,10 +83,19 @@
   justify-content: center;
   text-align: left;
   line-height: 2;
+  font-size: 25px;
+  overflow: scroll;
+  font-family: monospace;
+  font-weight: bold;
+  height: 80%;
 }
 
 #content-img img {
   width: 30%;
   height: 90%;
   border: 1px solid black;
+}
+
+body {
+  background-color: beige;
 }
