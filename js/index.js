@@ -48,50 +48,6 @@ function generateRandomNumber() {
   return randomNumber;
 }
 
-function generateRAndomImage() {
-  // Select the childern
-  var firstImage = imageContainer.children[0];
-  var secondImage = imageContainer.children[1];
-  var thirdImage = imageContainer.children[2];
-
-  firstIndex = generateRandomNumber();
-  secondIndex = generateRandomNumber();
-  thirdIndex = generateRandomNumber();
-
-  while (
-    firstIndex === secondIndex ||
-    secondIndex === thirdIndex ||
-    firstIndex === thirdIndex
-  ) {
-    secondIndex = generateRandomNumber();
-    thirdIndex = generateRandomNumber();
-  }
-  //  get pahts
-  var firstPath = allProducts[firstIndex].path;
-  var secondPath = allProducts[secondIndex].path;
-  var thirdPath = allProducts[thirdIndex].path;
-
-  //   get names
-  var firstName = allProducts[firstIndex].name;
-  var secondName = allProducts[secondIndex].name;
-  var thirdName = allProducts[thirdIndex].name;
-
-  //   count viwed
-
-  allProducts[firstIndex].numberOfViews++;
-  allProducts[secondIndex].numberOfViews++;
-  allProducts[thirdIndex].numberOfViews++;
-
-  //  assign values
-
-  firstImage.setAttribute("src", firstPath);
-  secondImage.setAttribute("src", secondPath);
-  thirdImage.setAttribute("src", thirdPath);
-  firstImage.setAttribute("name", firstName);
-  secondImage.setAttribute("name", secondName);
-  thirdImage.setAttribute("name", thirdName);
-}
-
 function generateImages() {
   for (var i = 0; i < selectedIndex.length; i++) {
     var imgTag = document.createElement("img");
@@ -120,7 +76,6 @@ imageContainer.addEventListener("click", function clickgenerator() {
       }
       selectedIndex = [];
       checkRepated();
-      console.log(selectedIndex);
       generateImages();
       totalClicks--;
     } else {
