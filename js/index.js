@@ -40,7 +40,9 @@ var product17 = new Product("usb", "../img/usb.gif");
 var product18 = new Product("water-can", "../img/water-can.jpg");
 
 // Function Calls
-
+generateRandomIndexs();
+removeRepeatedIndex();
+generateImages();
 // Functions
 
 function generateRandomNumber() {
@@ -61,7 +63,6 @@ function generateImages() {
 imageContainer.addEventListener("click", function clickgenerator() {
   var eventId = event.target.id;
   var elementName = event.target.name;
-  console.log(elementName);
   if (eventId != "content-img") {
     if (totalClicks > 0) {
       for (var i = 0; i < allProducts.length; i++) {
@@ -70,12 +71,13 @@ imageContainer.addEventListener("click", function clickgenerator() {
           break;
         }
       }
-      while (imageContainer.hasChildNodes()) {
-        imageContainer.removeChild(imageContainer.firstChild);
-        console.log(imageContainer.firstChild);
-      }
+      // while (imageContainer.hasChildNodes()) {
+      //   imageContainer.removeChild(imageContainer.firstChild);
+      // }
+      imageContainer.innerHTML = "";
       selectedIndex = [];
-      checkRepated();
+      generateRandomIndexs();
+      removeRepeatedIndex();
       generateImages();
       totalClicks--;
     } else {
@@ -95,7 +97,7 @@ function generateMessage() {
   }
 }
 
-function checkRepated() {
+function generateRandomIndexs() {
   var numberOfImagesPerClick =
     Math.floor(Math.random() * allProducts.length) + 1;
   for (var i = 0; i < numberOfImagesPerClick; i++) {
@@ -104,5 +106,16 @@ function checkRepated() {
   }
 }
 
-checkRepated();
-generateImages();
+function removeRepeatedIndex() {
+  selectedIndex.sort(function (a, b) {
+    return a - b;
+  });
+  console.log(selectedIndex);
+  for (var i = 0; i < selectedIndex.length; i++) {
+    for (var j = 1; j <= selectedIndex.length; j++) {
+      if (selectedIndex[i] == selectedIndex[j]) {
+        selectedIndex.splice(j, 1);
+      }
+    }
+  }
+}
