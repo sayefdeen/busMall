@@ -48,12 +48,15 @@
 #results {
   width: 20%;
   height: 100%;
-  border: 1px solid black;
   margin-top: 10%;
   margin-right: 1%;
 }
 #results p {
   padding: 15px;
+  font-size: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
 }
 
 #content {
@@ -98,4 +101,10 @@
 
 body {
   background-color: beige;
+}
+
+#result-list {
+  line-height: 1.5;
+  text-transform: capitalize;
+  word-spacing: 3px;
 }

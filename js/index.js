@@ -117,7 +117,7 @@ function generateMessage() {
   var listItem;
   for (var i = 0; i < allProducts.length; i++) {
     listItem = document.createElement("li");
-    listItem.textContent = `The ${allProducts[i].name} product has been viwed ${allProducts[i].numberOfViews} times\n and has been clicked ${allProducts[i].numberOfClicks} times`;
+    listItem.textContent = `${allProducts[i].name} had ${allProducts[i].numberOfClicks} votes \n and was shown ${allProducts[i].numberOfViews} times`;
     resultList.appendChild(listItem);
   }
 }
