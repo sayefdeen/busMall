@@ -1,9 +1,7 @@
 var imageContainer = document.getElementById("content-img");
 
-// console.log(imageContainer.children[0].attributes.src.value);
-// imageContainer.children[0].attributes.src.value = "../img/banana.jpg";
-
 var allProducts = [];
+var selectedIndex = [];
 var totalClicks = 25;
 var firstIndex;
 var secondIndex;
@@ -40,6 +38,12 @@ var product15 = new Product("unicorn", "../img/unicorn.jpg");
 var product16 = new Product("tauntaun", "../img/tauntaun.jpg");
 var product17 = new Product("usb", "../img/usb.gif");
 var product18 = new Product("water-can", "../img/water-can.jpg");
+
+// Function Calls
+
+checkRepated();
+
+// Functions
 
 function generateRandomNumber() {
   var randomNumber = Math.floor(Math.random() * allProducts.length);
@@ -89,7 +93,12 @@ function generateRAndomImage() {
   secondImage.setAttribute("name", secondName);
   thirdImage.setAttribute("name", thirdName);
 }
-generateRAndomImage();
+
+function generateImages() {
+  for (var i = 0; i < selectedIndex.length; i++) {
+    var imgTag = document.createElement("img");
+  }
+}
 
 imageContainer.addEventListener("click", function clickgenerator() {
   var eventId = event.target.id;
@@ -119,5 +128,19 @@ function generateMessage() {
     listItem = document.createElement("li");
     listItem.textContent = `${allProducts[i].name} had ${allProducts[i].numberOfClicks} votes \n and was shown ${allProducts[i].numberOfViews} times`;
     resultList.appendChild(listItem);
+  }
+}
+
+function checkRepated() {
+  var numberOfImagesPerClick =
+    Math.floor(Math.random() * allProducts.length) + 1;
+  for (var i = 0; i < numberOfImagesPerClick; i++) {
+    var randomNumber = generateRandomNumber();
+    selectedIndex.push(randomNumber);
+  }
+  for (var i = 0; i < selectedIndex.length - 1; i++) {
+    while (selectedIndex[i] == selectedIndex[i + 1]) {
+      selectedIndex[i + 1] = generateRandomNumber();
+    }
   }
 }

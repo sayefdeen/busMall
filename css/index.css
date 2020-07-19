@@ -79,6 +79,7 @@
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 #content-text p {
@@ -94,8 +95,8 @@
 }
 
 #content-img img {
-  width: 30%;
-  height: 90%;
+  width: 10%;
+  height: 50%;
   border: 1px solid black;
 }
 
