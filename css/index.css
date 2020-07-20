@@ -41,8 +41,6 @@
   width: 100%;
   height: 750px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 #results {
@@ -107,4 +105,15 @@ body {
   line-height: 1.5;
   text-transform: capitalize;
   word-spacing: 3px;
+}
+
+#canvase-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+#canvase-container canvas {
+  margin: 30% 50px;
 }

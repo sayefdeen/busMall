@@ -8,6 +8,9 @@ var totalClicks = 25;
 var firstIndex;
 var secondIndex;
 var thirdIndex;
+var allNames = [];
+var allClickes = [];
+var allViews = [];
 
 // Constructor
 
@@ -18,6 +21,7 @@ function Product(name, path) {
   this.numberOfClicks = 0;
 
   allProducts.push(this);
+  allNames.push(this.name);
 }
 
 // create Objects
@@ -107,10 +111,20 @@ imageContainer.addEventListener("click", function clickgenerator() {
       totalClicks--;
     } else {
       generateMessage();
+      getAllClickAndViews();
+      generateViwedChart();
+      generateClickedChart();
       imageContainer.removeEventListener("click", clickgenerator);
     }
   }
 });
+
+function getAllClickAndViews() {
+  for (var i = 0; i < allProducts.length; i++) {
+    allClickes.push(allProducts[i].numberOfClicks);
+    allViews.push(allProducts[i].numberOfViews);
+  }
+}
 
 function generateMessage() {
   var resultList = document.getElementById("result-list");
@@ -120,4 +134,100 @@ function generateMessage() {
     listItem.textContent = `${allProducts[i].name} had ${allProducts[i].numberOfClicks} votes \n and was shown ${allProducts[i].numberOfViews} times`;
     resultList.appendChild(listItem);
   }
+}
+
+function generateClickedChart() {
+  var ctx = document.getElementById("clickedChart");
+  var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: allNames,
+      datasets: [
+        {
+          label: "# of Clicks",
+          data: allClickes,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              max: allProducts.length,
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  myChart.canvas.parentNode.style.height = "100%";
+  myChart.canvas.parentNode.style.width = "40%";
+}
+
+function generateViwedChart() {
+  var ctx = document.getElementById("viwedChart");
+  var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: allNames,
+      datasets: [
+        {
+          label: "# of Views",
+          data: allViews,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              max: allProducts.length,
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  myChart.canvas.parentNode.style.height = "100%";
+  myChart.canvas.parentNode.style.width = "40%";
 }
