@@ -5,9 +5,6 @@ var imageContainer = document.getElementById("content-img");
 
 var allProducts = [];
 var totalClicks = 25;
-var firstIndex;
-var secondIndex;
-var thirdIndex;
 var allNames = [];
 var allClickes = [];
 var allViews = [];
@@ -57,9 +54,9 @@ function generateRAndomImage() {
   var secondImage = imageContainer.children[1];
   var thirdImage = imageContainer.children[2];
 
-  firstIndex = generateRandomNumber();
-  secondIndex = generateRandomNumber();
-  thirdIndex = generateRandomNumber();
+  var firstIndex = generateRandomNumber();
+  var secondIndex = generateRandomNumber();
+  var thirdIndex = generateRandomNumber();
 
   while (
     firstIndex === secondIndex ||
