@@ -9,6 +9,8 @@ var allNames = [];
 var allClickes = [];
 var allViews = [];
 var randomColors = [];
+var nextArray = [];
+var checkArr = [];
 
 // Constructor
 
@@ -44,52 +46,44 @@ var product17 = new Product("usb", "../img/usb.gif");
 var product18 = new Product("water-can", "../img/water-can.jpg");
 
 function generateRandomNumber() {
-  var randomNumber = Math.floor(Math.random() * allProducts.length);
+  var randomNumber = Math.floor(Math.random() * (allProducts.length - 1));
   return randomNumber;
 }
 
 function generateRAndomImage() {
+  checkArr = nextArray;
+  nextArray = [];
   // Select the childern
   var firstImage = imageContainer.children[0];
   var secondImage = imageContainer.children[1];
   var thirdImage = imageContainer.children[2];
 
-  var firstIndex = generateRandomNumber();
-  var secondIndex = generateRandomNumber();
-  var thirdIndex = generateRandomNumber();
+  for (var i = 0; i < 3; i++) {
+    nextArray.push(generateRandomNumber());
+  }
 
   while (
-    firstIndex === secondIndex ||
-    secondIndex === thirdIndex ||
-    firstIndex === thirdIndex
+    nextArray[0] === nextArray[1] ||
+    nextArray[1] === nextArray[2] ||
+    nextArray[0] === nextArray[2]
   ) {
-    secondIndex = generateRandomNumber();
-    thirdIndex = generateRandomNumber();
+    nextArray[1] = generateRandomNumber();
+    nextArray[2] = generateRandomNumber();
   }
-  //  get pahts
-  var firstPath = allProducts[firstIndex].path;
-  var secondPath = allProducts[secondIndex].path;
-  var thirdPath = allProducts[thirdIndex].path;
+  for (var i = 0; i < checkArr.length; i++) {
+    for (var j = 0; j < nextArray.length - 1; j++) {
+      while (checkArr[i] == nextArray[j]) {
+        nextArray[j] = generateRandomNumber();
+      }
+    }
+  }
 
-  //   get names
-  var firstName = allProducts[firstIndex].name;
-  var secondName = allProducts[secondIndex].name;
-  var thirdName = allProducts[thirdIndex].name;
-
-  //   count viwed
-
-  allProducts[firstIndex].numberOfViews++;
-  allProducts[secondIndex].numberOfViews++;
-  allProducts[thirdIndex].numberOfViews++;
-
-  //  assign values
-
-  firstImage.setAttribute("src", firstPath);
-  secondImage.setAttribute("src", secondPath);
-  thirdImage.setAttribute("src", thirdPath);
-  firstImage.setAttribute("name", firstName);
-  secondImage.setAttribute("name", secondName);
-  thirdImage.setAttribute("name", thirdName);
+  for (var i = 0; i < imageContainer.children.length; i++) {
+    var img = imageContainer.children[i];
+    img.setAttribute("src", allProducts[nextArray[i]].path);
+    img.setAttribute("name", allProducts[nextArray[i]].name);
+    allProducts[nextArray[i]].numberOfViews++;
+  }
 }
 generateRAndomImage();
 
