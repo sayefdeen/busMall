@@ -46,17 +46,14 @@ var product17 = new Product("usb", "../img/usb.gif");
 var product18 = new Product("water-can", "../img/water-can.jpg");
 
 function generateRandomNumber() {
-  var randomNumber = Math.floor(Math.random() * (allProducts.length - 1));
+  var randomNumber = Math.floor(Math.random() * allProducts.length);
   return randomNumber;
 }
 
 function generateRAndomImage() {
   checkArr = nextArray;
+  console.log("Checked Array values " + checkArr);
   nextArray = [];
-  // Select the childern
-  var firstImage = imageContainer.children[0];
-  var secondImage = imageContainer.children[1];
-  var thirdImage = imageContainer.children[2];
 
   for (var i = 0; i < 3; i++) {
     nextArray.push(generateRandomNumber());
@@ -77,6 +74,7 @@ function generateRAndomImage() {
       }
     }
   }
+  console.log("Next Array values " + nextArray);
 
   for (var i = 0; i < imageContainer.children.length; i++) {
     var img = imageContainer.children[i];
@@ -142,7 +140,6 @@ function generateMessage() {
 
 function generateClickedChart() {
   getRandomColor();
-  console.log(randomColors);
   var ctx = document.getElementById("clickedChart");
   var myChart = new Chart(ctx, {
     type: "bar",
@@ -177,8 +174,6 @@ function generateClickedChart() {
 }
 
 function generateViwedChart() {
-  getRandomColor();
-  console.log(randomColors);
   var ctx = document.getElementById("viwedChart");
   var myChart = new Chart(ctx, {
     type: "bar",
