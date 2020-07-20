@@ -1,6 +1,6 @@
 # busMall
 
-19/7/2020.
+## 19/7/2020.
 
 This Lab is about a bus Mall, you will find 2 branches,
 
@@ -20,3 +20,10 @@ In our lab there was some stretch-goals.
 - Also based on that value, ensure that your randomizer is properly handling the specified number of images for display and repeat tracking.
 
 You will find the solution of these requirment in this branch.
+
+## 20/7/2020.
+
+Todays Lab was about charts in JavaScript.
+you will find a branch called chartjs , the solution of this lab is there.
+
+The idea of this lab is to generate a random 3 unique pictuers, and these pictuers should not appear in the next iteration.
