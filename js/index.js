@@ -175,7 +175,7 @@ function generateClickedChart() {
 function generateViwedChart() {
   var ctx = document.getElementById("viwedChart");
   var myChart = new Chart(ctx, {
-    type: "bar",
+    type: "pie",
     data: {
       labels: allNames,
       datasets: [
