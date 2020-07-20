@@ -5,9 +5,12 @@ var imageContainer = document.getElementById("content-img");
 
 var allProducts = [];
 var totalClicks = 25;
-var firstIndex;
-var secondIndex;
-var thirdIndex;
+var allNames = [];
+var allClickes = [];
+var allViews = [];
+var randomColors = [];
+var nextArray = [];
+var checkArr = [];
 
 // Constructor
 
@@ -18,6 +21,7 @@ function Product(name, path) {
   this.numberOfClicks = 0;
 
   allProducts.push(this);
+  allNames.push(this.name);
 }
 
 // create Objects
@@ -47,47 +51,36 @@ function generateRandomNumber() {
 }
 
 function generateRAndomImage() {
-  // Select the childern
-  var firstImage = imageContainer.children[0];
-  var secondImage = imageContainer.children[1];
-  var thirdImage = imageContainer.children[2];
+  checkArr = nextArray;
+  console.log("Checked Array values " + checkArr);
+  nextArray = [];
 
-  firstIndex = generateRandomNumber();
-  secondIndex = generateRandomNumber();
-  thirdIndex = generateRandomNumber();
+  for (var i = 0; i < 3; i++) {
+    nextArray.push(generateRandomNumber());
+  }
 
   while (
-    firstIndex === secondIndex ||
-    secondIndex === thirdIndex ||
-    firstIndex === thirdIndex
+    nextArray[0] === nextArray[1] ||
+    nextArray[1] === nextArray[2] ||
+    nextArray[0] === nextArray[2]
   ) {
-    secondIndex = generateRandomNumber();
-    thirdIndex = generateRandomNumber();
+    nextArray[1] = generateRandomNumber();
+    nextArray[2] = generateRandomNumber();
   }
-  //  get pahts
-  var firstPath = allProducts[firstIndex].path;
-  var secondPath = allProducts[secondIndex].path;
-  var thirdPath = allProducts[thirdIndex].path;
+  if (checkArr.length == 0) {
+    nextArray = nextArray;
+  } else {
+    nextArray = hasMultible();
+  }
 
-  //   get names
-  var firstName = allProducts[firstIndex].name;
-  var secondName = allProducts[secondIndex].name;
-  var thirdName = allProducts[thirdIndex].name;
+  console.log("Next Array values " + nextArray);
 
-  //   count viwed
-
-  allProducts[firstIndex].numberOfViews++;
-  allProducts[secondIndex].numberOfViews++;
-  allProducts[thirdIndex].numberOfViews++;
-
-  //  assign values
-
-  firstImage.setAttribute("src", firstPath);
-  secondImage.setAttribute("src", secondPath);
-  thirdImage.setAttribute("src", thirdPath);
-  firstImage.setAttribute("name", firstName);
-  secondImage.setAttribute("name", secondName);
-  thirdImage.setAttribute("name", thirdName);
+  for (var i = 0; i < imageContainer.children.length; i++) {
+    var img = imageContainer.children[i];
+    img.setAttribute("src", allProducts[nextArray[i]].path);
+    img.setAttribute("name", allProducts[nextArray[i]].name);
+    allProducts[nextArray[i]].numberOfViews++;
+  }
 }
 generateRAndomImage();
 
@@ -107,10 +100,32 @@ imageContainer.addEventListener("click", function clickgenerator() {
       totalClicks--;
     } else {
       generateMessage();
+      getAllClickAndViews();
+      generateViwedChart();
+      generateClickedChart();
       imageContainer.removeEventListener("click", clickgenerator);
     }
   }
 });
+
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+
+  for (var j = 0; j < allProducts.length; j++) {
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    randomColors.push(color);
+  }
+}
+
+function getAllClickAndViews() {
+  for (var i = 0; i < allProducts.length; i++) {
+    allClickes.push(allProducts[i].numberOfClicks);
+    allViews.push(allProducts[i].numberOfViews);
+  }
+}
 
 function generateMessage() {
   var resultList = document.getElementById("result-list");
@@ -120,4 +135,89 @@ function generateMessage() {
     listItem.textContent = `${allProducts[i].name} had ${allProducts[i].numberOfClicks} votes \n and was shown ${allProducts[i].numberOfViews} times`;
     resultList.appendChild(listItem);
   }
+}
+
+function generateClickedChart() {
+  getRandomColor();
+  var ctx = document.getElementById("clickedChart");
+  var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: allNames,
+      datasets: [
+        {
+          label: "# of Clicks",
+          data: allClickes,
+          backgroundColor: randomColors,
+          borderColor: randomColors,
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              max: 10,
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  myChart.canvas.parentNode.style.height = "100%";
+  myChart.canvas.parentNode.style.width = "50%";
+}
+
+function generateViwedChart() {
+  var ctx = document.getElementById("viwedChart");
+  var myChart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: allNames,
+      datasets: [
+        {
+          label: "# of Views",
+          data: allViews,
+          backgroundColor: randomColors,
+          borderColor: randomColors,
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              max: 10,
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  myChart.canvas.parentNode.style.height = "100%";
+  myChart.canvas.parentNode.style.width = "100%";
+}
+
+function hasDuplicates(array) {
+  return new Set(array).size !== array.length;
+}
+
+function hasMultible() {
+  for (var i = 0; i < checkArr.length; i++) {
+    while (checkArr.indexOf(nextArray[i]) !== -1) {
+      nextArray[i] = generateRandomNumber();
+    }
+  }
+  while (hasDuplicates(nextArray)) {
+    hasMultible();
+  }
+  return nextArray;
 }
