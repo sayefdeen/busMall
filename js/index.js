@@ -67,13 +67,12 @@ function generateRAndomImage() {
     nextArray[1] = generateRandomNumber();
     nextArray[2] = generateRandomNumber();
   }
-  for (var i = 0; i < checkArr.length; i++) {
-    for (var j = 0; j < nextArray.length - 1; j++) {
-      while (checkArr[i] == nextArray[j]) {
-        nextArray[j] = generateRandomNumber();
-      }
-    }
+  if (checkArr.length == 0) {
+    nextArray = nextArray;
+  } else {
+    nextArray = hasMultible();
   }
+
   console.log("Next Array values " + nextArray);
 
   for (var i = 0; i < imageContainer.children.length; i++) {
@@ -205,4 +204,20 @@ function generateViwedChart() {
 
   myChart.canvas.parentNode.style.height = "100%";
   myChart.canvas.parentNode.style.width = "100%";
+}
+
+function hasDuplicates(array) {
+  return new Set(array).size !== array.length;
+}
+
+function hasMultible() {
+  for (var i = 0; i < checkArr.length; i++) {
+    while (checkArr.indexOf(nextArray[i]) !== -1) {
+      nextArray[i] = generateRandomNumber();
+    }
+  }
+  while (hasDuplicates(nextArray)) {
+    hasMultible();
+  }
+  return nextArray;
 }
