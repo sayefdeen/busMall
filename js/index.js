@@ -1,13 +1,24 @@
 var imageContainer = document.getElementById("content-img");
+var restLocalStorage = document.getElementById("rest");
+restLocalStorage.addEventListener("click", function () {
+  if (localStorage.length <= 0) {
+    alert("You dont have local Storage");
+  } else {
+    localStorage.clear();
+    alert("Your Local Storage has been cleared");
+  }
+});
 
 // console.log(imageContainer.children[0].attributes.src.value);
 // imageContainer.children[0].attributes.src.value = "../img/banana.jpg";
-
+var jsonObject;
 var allProducts = [];
-var totalClicks = 25;
+var totalClicks = 10;
 var allNames = [];
-var allClickes = [];
-var allViews = [];
+var clickPerRef = [];
+var viewsPerRef = [];
+var totalClicksArr = [];
+var totalViewsArr = [];
 var randomColors = [];
 var nextArray = [];
 var checkArr = [];
@@ -19,6 +30,8 @@ function Product(name, path) {
   this.path = path;
   this.numberOfViews = 0;
   this.numberOfClicks = 0;
+  this.allNumberOfClicks = 0;
+  this.allNumberOfViews = 0;
 
   allProducts.push(this);
   allNames.push(this.name);
@@ -52,7 +65,7 @@ function generateRandomNumber() {
 
 function generateRAndomImage() {
   checkArr = nextArray;
-  console.log("Checked Array values " + checkArr);
+  // console.log("Checked Array values " + checkArr);
   nextArray = [];
 
   for (var i = 0; i < 3; i++) {
@@ -73,13 +86,14 @@ function generateRAndomImage() {
     nextArray = hasMultible();
   }
 
-  console.log("Next Array values " + nextArray);
+  // console.log("Next Array values " + nextArray);
 
   for (var i = 0; i < imageContainer.children.length; i++) {
     var img = imageContainer.children[i];
     img.setAttribute("src", allProducts[nextArray[i]].path);
     img.setAttribute("name", allProducts[nextArray[i]].name);
     allProducts[nextArray[i]].numberOfViews++;
+    allProducts[nextArray[i]].allNumberOfViews++;
   }
 }
 generateRAndomImage();
@@ -87,22 +101,23 @@ generateRAndomImage();
 imageContainer.addEventListener("click", function clickgenerator() {
   var eventId = event.target.id;
   var elementName = event.target.name;
-  console.log(elementName);
   if (eventId != "content-img") {
     if (totalClicks > 0) {
       for (var i = 0; i < allProducts.length; i++) {
         if (allProducts[i].name === elementName) {
           allProducts[i].numberOfClicks++;
+          allProducts[i].allNumberOfClicks++;
           break;
         }
       }
       generateRAndomImage();
       totalClicks--;
     } else {
+      storeToLocalStorage();
       generateMessage();
       getAllClickAndViews();
-      generateViwedChart();
       generateClickedChart();
+      generateTotalChart();
       imageContainer.removeEventListener("click", clickgenerator);
     }
   }
@@ -121,9 +136,21 @@ function getRandomColor() {
 }
 
 function getAllClickAndViews() {
-  for (var i = 0; i < allProducts.length; i++) {
-    allClickes.push(allProducts[i].numberOfClicks);
-    allViews.push(allProducts[i].numberOfViews);
+  console.log(jsonObject == null);
+  if (jsonObject == null) {
+    for (var i = 0; i < allProducts.length; i++) {
+      clickPerRef.push(allProducts[i].numberOfClicks);
+      viewsPerRef.push(allProducts[i].numberOfViews);
+    }
+    totalClicksArr = clickPerRef;
+    totalViewsArr = viewsPerRef;
+  } else {
+    for (var i = 0; i < allProducts.length; i++) {
+      clickPerRef.push(allProducts[i].numberOfClicks);
+      viewsPerRef.push(allProducts[i].numberOfViews);
+      totalClicksArr.push(jsonObject[i].allNumberOfClicks);
+      totalViewsArr.push(jsonObject[i].allNumberOfViews);
+    }
   }
 }
 
@@ -139,49 +166,22 @@ function generateMessage() {
 
 function generateClickedChart() {
   getRandomColor();
-  var ctx = document.getElementById("clickedChart");
+  var ctx = document.getElementById("eachTime");
   var myChart = new Chart(ctx, {
     type: "bar",
     data: {
       labels: allNames,
       datasets: [
         {
-          label: "# of Clicks",
-          data: allClickes,
+          label: "Clicks each Time",
+          data: clickPerRef,
           backgroundColor: randomColors,
           borderColor: randomColors,
           borderWidth: 1,
         },
-      ],
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              max: 10,
-            },
-          },
-        ],
-      },
-    },
-  });
-
-  myChart.canvas.parentNode.style.height = "100%";
-  myChart.canvas.parentNode.style.width = "50%";
-}
-
-function generateViwedChart() {
-  var ctx = document.getElementById("viwedChart");
-  var myChart = new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: allNames,
-      datasets: [
         {
-          label: "# of Views",
-          data: allViews,
+          label: "views each Time",
+          data: viewsPerRef,
           backgroundColor: randomColors,
           borderColor: randomColors,
           borderWidth: 1,
@@ -194,7 +194,6 @@ function generateViwedChart() {
           {
             ticks: {
               beginAtZero: true,
-              max: 10,
             },
           },
         ],
@@ -204,6 +203,47 @@ function generateViwedChart() {
 
   myChart.canvas.parentNode.style.height = "100%";
   myChart.canvas.parentNode.style.width = "100%";
+}
+
+function generateTotalChart() {
+  getRandomColor();
+  var ctx = document.getElementById("totalResult");
+  var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: allNames,
+      datasets: [
+        {
+          label: "Total Clicks",
+          data: totalClicksArr,
+          backgroundColor: randomColors,
+          borderColor: randomColors,
+          borderWidth: 1,
+        },
+        {
+          label: "Total Views",
+          data: totalViewsArr,
+          backgroundColor: randomColors,
+          borderColor: randomColors,
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  myChart.canvas.parentNode.style.height = "100%";
+  myChart.canvas.parentNode.style.width = "50%";
 }
 
 function hasDuplicates(array) {
@@ -220,4 +260,24 @@ function hasMultible() {
     hasMultible();
   }
   return nextArray;
+}
+
+function storeToLocalStorage() {
+  var jsonStringiyObject = JSON.stringify(allProducts);
+  localStorage.setItem("products", jsonStringiyObject);
+}
+if (localStorage.length > 0) {
+  returnLocalStorageObject();
+}
+
+function returnLocalStorageObject() {
+  jsonObject = JSON.parse(localStorage["products"]);
+  updateLocalStorage(jsonObject);
+}
+
+function updateLocalStorage(jsonObject) {
+  for (let index = 0; index < allProducts.length; index++) {
+    allProducts[index].allNumberOfClicks = jsonObject[index].allNumberOfClicks;
+    allProducts[index].allNumberOfViews = jsonObject[index].allNumberOfViews;
+  }
 }
