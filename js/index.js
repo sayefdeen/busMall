@@ -101,7 +101,7 @@ imageContainer.addEventListener("click", function clickgenerator() {
     } else {
       generateMessage();
       getAllClickAndViews();
-      generateViwedChart();
+
       generateClickedChart();
       imageContainer.removeEventListener("click", clickgenerator);
     }
@@ -152,33 +152,6 @@ function generateClickedChart() {
           borderColor: randomColors,
           borderWidth: 1,
         },
-      ],
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              max: 10,
-            },
-          },
-        ],
-      },
-    },
-  });
-
-  myChart.canvas.parentNode.style.height = "100%";
-  myChart.canvas.parentNode.style.width = "50%";
-}
-
-function generateViwedChart() {
-  var ctx = document.getElementById("viwedChart");
-  var myChart = new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: allNames,
-      datasets: [
         {
           label: "# of Views",
           data: allViews,
@@ -194,7 +167,6 @@ function generateViwedChart() {
           {
             ticks: {
               beginAtZero: true,
-              max: 10,
             },
           },
         ],
