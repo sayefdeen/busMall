@@ -27,3 +27,12 @@ Todays Lab was about charts in JavaScript.
 you will find a branch called chartjs , the solution of this lab is there.
 
 The idea of this lab is to generate a random 3 unique pictuers, and these pictuers should not appear in the next iteration.
+
+## 21/7/2020.
+
+Todays lab was about local Storage in JavaScript.
+you will find a branch called localStorage , the solution of this lab is there.
+
+The idea is to save the total data of (Views/Clicks) on localStorage, and dispaly it using charts.
+
+Yo gonna see two charts, the first one values will change each time you refresh and finsh the task, the second one will keep tracking even if you refresh the page, in the end it will generate two charts.

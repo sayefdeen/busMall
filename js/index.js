@@ -13,7 +13,7 @@ restLocalStorage.addEventListener("click", function () {
 // imageContainer.children[0].attributes.src.value = "../img/banana.jpg";
 var jsonObject;
 var allProducts = [];
-var totalClicks = 10;
+var totalClicks = 25;
 var allNames = [];
 var clickPerRef = [];
 var viewsPerRef = [];
