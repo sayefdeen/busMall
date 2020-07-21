@@ -101,7 +101,6 @@ generateRAndomImage();
 imageContainer.addEventListener("click", function clickgenerator() {
   var eventId = event.target.id;
   var elementName = event.target.name;
-  console.log(elementName);
   if (eventId != "content-img") {
     if (totalClicks > 0) {
       for (var i = 0; i < allProducts.length; i++) {
@@ -153,9 +152,6 @@ function getAllClickAndViews() {
       totalViewsArr.push(jsonObject[i].allNumberOfViews);
     }
   }
-
-  console.table(totalViewsArr);
-  console.table(totalClicksArr);
 }
 
 function generateMessage() {
@@ -284,5 +280,4 @@ function updateLocalStorage(jsonObject) {
     allProducts[index].allNumberOfClicks = jsonObject[index].allNumberOfClicks;
     allProducts[index].allNumberOfViews = jsonObject[index].allNumberOfViews;
   }
-  console.log(jsonObject);
 }
