@@ -1,4 +1,13 @@
 var imageContainer = document.getElementById("content-img");
+var restLocalStorage = document.getElementById("rest");
+restLocalStorage.addEventListener("click", function () {
+  if (localStorage.length <= 0) {
+    alert("You dont have local Storage");
+  } else {
+    localStorage.clear();
+    alert("Your Local Storage has been cleared");
+  }
+});
 
 // console.log(imageContainer.children[0].attributes.src.value);
 // imageContainer.children[0].attributes.src.value = "../img/banana.jpg";
@@ -99,9 +108,9 @@ imageContainer.addEventListener("click", function clickgenerator() {
       generateRAndomImage();
       totalClicks--;
     } else {
+      storeToLocalStorage();
       generateMessage();
       getAllClickAndViews();
-
       generateClickedChart();
       imageContainer.removeEventListener("click", clickgenerator);
     }
@@ -192,4 +201,9 @@ function hasMultible() {
     hasMultible();
   }
   return nextArray;
+}
+
+function storeToLocalStorage() {
+  var jsonStringiyObject = JSON.stringify(allProducts);
+  localStorage.setItem("products", jsonStringiyObject);
 }

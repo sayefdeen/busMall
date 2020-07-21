@@ -20,6 +20,13 @@
   height: 70px;
 }
 
+.nav-logo button {
+  padding: 15px;
+  background-color: #333;
+  color: white;
+  font-size: 25px;
+}
+
 #nav-items {
   width: 60%;
   display: flex;
